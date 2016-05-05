@@ -1,152 +1,152 @@
-CREATE OR REPLACE PACKAGE DEV_SNAPSHOT_DB_OBJECTS IS
-  /* Сохранение BLOB типа в файл */
+п»їCREATE OR REPLACE PACKAGE DEV_SNAPSHOT_DB_OBJECTS IS
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ BLOB С‚РёРїР° РІ С„Р°Р№Р» */
   PROCEDURE SAVE_BLOBTOFILE(P_FILENAME IN VARCHAR2, P_DIRECTORY_NAME IN VARCHAR2, P_BLOB IN BLOB);
   
-  /* Сохранение CLOB типа в файл */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ CLOB С‚РёРїР° РІ С„Р°Р№Р» */
   PROCEDURE SAVE_CLOBTOFILE(P_FILENAME IN VARCHAR2, P_DIRECTORY_NAME IN VARCHAR2, P_CLOB IN CLOB);
   
-  /* Сохранение скрипта DML ввиде PLS/SQL */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРєСЂРёРїС‚Р° DML РІРІРёРґРµ PLS/SQL */
   FUNCTION GET_GEN_INSERT(P_SQL CLOB, P_NEW_TABLE_NAME VARCHAR2, P_NEW_OWNER_NAME VARCHAR2 DEFAULT NULL) RETURN CLOB;
   
-  /* Сохранение всех объектов базы данных */
-  FUNCTION CREATE_ALL_OBJECTS RETURN T_STRLIST PIPELINED;
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ Р±Р°Р·С‹ РґР°РЅРЅС‹С… */
+  FUNCTION CREATE_ALL_OBJECTS(P_OWNER_NAME IN VARCHAR2) RETURN T_STRLIST PIPELINED;
   
-  /* Сохранение DML файлов для вставки данных в таблицу */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ DML С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ */
   FUNCTION LOADTOFILES_ALL_INSERT_TABLE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
   
-  /* Сохранение CTL файлов для вставки данных в таблицу */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ CTL С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ */
   FUNCTION LOADTOFILES_ALL_CTL_FILE(P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
   
-  /* Сохранение DAT файлов для вставки данных в таблицу */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ DAT С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ */
   FUNCTION LOADTOFILES_ALL_DAT_FILE(P_DIRECTORY_NAME_SECOND IN VARCHAR2) RETURN VARCHAR2;
   
-  /* Сохранение последовательности (SEQUENCE) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё (SEQUENCE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_SEQUENCE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
   
-  /* Сохранение всех представлений (VIEW) в файл и диреторию и материализованное представления (MATERIALIZED VIEW) в файл и дереторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїСЂРµРґСЃС‚Р°РІР»РµРЅРёР№ (VIEW) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ Рё РјР°С‚РµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ (MATERIALIZED VIEW) РІ С„Р°Р№Р» Рё РґРµСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_VIEW(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех триггеров (TRIGGER) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚СЂРёРіРіРµСЂРѕРІ (TRIGGER) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_TRIGGER(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех типов (TYPE) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚РёРїРѕРІ (TYPE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_TYPE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех функций (FUNCTION) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С„СѓРЅРєС†РёР№ (FUNCTION) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_FUNCTION(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех процедур (PROCEDURE) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїСЂРѕС†РµРґСѓСЂ (PROCEDURE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_PROCEDURE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех пакетов (PACKAGE) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїР°РєРµС‚РѕРІ (PACKAGE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_PACKAGE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех таблиц (TABLE) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚Р°Р±Р»РёС† (TABLE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_TABLE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех ограничений (CONSTRAIN) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РѕРіСЂР°РЅРёС‡РµРЅРёР№ (CONSTRAIN) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_CONSTRAIN(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех индексов (INDEX) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РёРЅРґРµРєСЃРѕРІ (INDEX) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_INDEX(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение всех запросов (SQLQUERY) в файл и диреторию */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… Р·Р°РїСЂРѕСЃРѕРІ (SQLQUERY) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ */
   FUNCTION LOADTOFILES_ALL_SQLQUERY(P_DIRECTORY_NAME IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Сохранение CLOB и BLOB типов в файл  */
+  /* РЎРѕС…СЂР°РЅРµРЅРёРµ CLOB Рё BLOB С‚РёРїРѕРІ РІ С„Р°Р№Р»  */
   FUNCTION LOADTOFILES_CLOB_BLOB_OFQUERY(P_QUERY IN VARCHAR2, P_TABLE_NAME IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2) RETURN VARCHAR2;
 
-  /* Получить текст DDL последовательности */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё */
   FUNCTION GET_DDL_SEQUENCE(P_SEQUENCE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL материализованного представления */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РјР°С‚РµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ */
   FUNCTION GET_DDL_MVIEW(P_MVIEW_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст DDL представления */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ */
   FUNCTION GET_DDL_VIEW(P_VIEW_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст DDL тириггера */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РёСЂРёРіРіРµСЂР° */
   FUNCTION GET_DDL_TRIGGER(P_TRIGGER_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL тип спецификации */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РёРї СЃРїРµС†РёС„РёРєР°С†РёРё */
   FUNCTION GET_DDL_TYPE_SPEC(P_TYPE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст DDL тело типа */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РµР»Рѕ С‚РёРїР° */
   FUNCTION GET_DDL_TYPE_BODY(P_TYPE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL функции */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С„СѓРЅРєС†РёРё */
   FUNCTION GET_DDL_FUNCTION(P_FUNCTION_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст DDL процедуры */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїСЂРѕС†РµРґСѓСЂС‹ */
   FUNCTION GET_DDL_PROCEDURE(P_PROCEDURE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL спецификация пакета */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL СЃРїРµС†РёС„РёРєР°С†РёСЏ РїР°РєРµС‚Р° */
   FUNCTION GET_DDL_PACKAGE_SPEC(P_PACKAGE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL тело пакета */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РµР»Рѕ РїР°РєРµС‚Р° */
   FUNCTION GET_DDL_PACKAGE_BODY(P_PACKAGE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL таблицы */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚Р°Р±Р»РёС†С‹ */
   FUNCTION GET_DDL_TABLE(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст SELECT INSERT таблицы */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ SELECT INSERT С‚Р°Р±Р»РёС†С‹ */
   FUNCTION GET_DML_INSSCRIPT(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DML INSERT таблицы */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DML INSERT С‚Р°Р±Р»РёС†С‹ */
   FUNCTION GET_DML_TABLE(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
 
-  /* Получить текст запроса из базы данных */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ Р·Р°РїСЂРѕСЃР° РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С… */
   FUNCTION GET_DML_SQLQUERY(P_BO_QUERY_ID NUMBER) RETURN CLOB;
 
-  /* Получить текст DDL ограничения */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РѕРіСЂР°РЅРёС‡РµРЅРёСЏ */
   FUNCTION GET_DDL_CONSTRAINT(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DDL индекса */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РёРЅРґРµРєСЃР° */
   FUNCTION GET_DDL_INDEX(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст CTL файл таблицы */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ CTL С„Р°Р№Р» С‚Р°Р±Р»РёС†С‹ */
   FUNCTION GET_CTL_FILE_SCRIPT(P_TABLE_NAME VARCHAR2, P_OWNER_NAME VARCHAR2) RETURN CLOB;
   
-  /* Получить текст DAT файл таблицы */
+  /* РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DAT С„Р°Р№Р» С‚Р°Р±Р»РёС†С‹ */
   FUNCTION GET_DAT_FILE_QUERY(P_QUERY IN VARCHAR2, P_TABLE_NAME IN VARCHAR2, P_SEPARATOR IN VARCHAR2 DEFAULT ';', P_LINE_TERMINATOR IN VARCHAR2 DEFAULT '{EOL}') RETURN CLOB;
 
 END DEV_SNAPSHOT_DB_OBJECTS;
 /
 CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   /*
-    Пакет - DEV_SNAPSHOT_DB_OBJECTS
-    Описание: Предназначен для создания текущего снимка базы данных
-              виде скриптов SQL - DDL, DML, SQL*Loader.     
+    РџР°РєРµС‚ - DEV_SNAPSHOT_DB_OBJECTS
+    РћРїРёСЃР°РЅРёРµ: РџСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚РµРєСѓС‰РµРіРѕ СЃРЅРёРјРєР° Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+              РІРёРґРµ СЃРєСЂРёРїС‚РѕРІ SQL - DDL, DML, SQL*Loader.     
               
-    Использование: 
-    - Для всех объектов:
-    SELECT TEXT FROM TABLE(DEV_SNAPSHOT_DB_OBJECTS.CREATE_ALL_OBJECTS);
-    Время выполнения ~ 30:00 минут.
-    Результат:
+    РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ: 
+    - Р”Р»СЏ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ:
+    SELECT TEXT FROM TABLE(DEV_SNAPSHOT_DB_OBJECTS.CREATE_ALL_OBJECTS('DISTRDEV'));
+    Р’СЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ ~ 30:00 РјРёРЅСѓС‚.
+    Р РµР·СѓР»СЊС‚Р°С‚:
         TEXT
-    1 Файлы tables сохранены!!!
-    2 Файлы constraints сохранены!!!
-    3 Файлы indexes сохранены!!!
-    4 Файлы views сохранены!!!
-    5 Файлы triggers сохранены!!!
-    6 Файлы types сохранены!!!
-    7 Файлы functions сохранены!!!
-    8 Файлы procedures сохранены!!!
-    9 Файлы packages сохранены!!!
-    10  Файлы sequences сохранены!!!
-    11  Файлы ctl сохранены!!!
-    12  "Файлы *.dat таблицы ELSYS_ACCTRANS_DETAIL сохранены!!!
-       Файлы *.dat таблицы ELSYS_BO_QUERY сохранены!!!
-       Файлы *.dat таблицы ELSYS_FIELD_PROPERTY сохранены!!!
-       Файлы *.dat таблицы ELSYS_FILTER сохранены!!!
-       Файлы *.dat таблицы ELSYS_JOB сохранены!!!
-       Файлы *.dat таблицы ELSYS_PRINT_FORM сохранены!!!
-       Файлы *.dat таблицы NN_XML_SETTINGS сохранены!!!
-       Файлы *.dat таблицы XLRPT_TEMPLATE сохранены!!!
-       Файлы dat сохранены!!!"
-    13  Файлы dml insert сохранены!!!
+    1 Р¤Р°Р№Р»С‹ tables СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    2 Р¤Р°Р№Р»С‹ constraints СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    3 Р¤Р°Р№Р»С‹ indexes СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    4 Р¤Р°Р№Р»С‹ views СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    5 Р¤Р°Р№Р»С‹ triggers СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    6 Р¤Р°Р№Р»С‹ types СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    7 Р¤Р°Р№Р»С‹ functions СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    8 Р¤Р°Р№Р»С‹ procedures СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    9 Р¤Р°Р№Р»С‹ packages СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    10  Р¤Р°Р№Р»С‹ sequences СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    11  Р¤Р°Р№Р»С‹ ctl СЃРѕС…СЂР°РЅРµРЅС‹!!!
+    12  "Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_ACCTRANS_DETAIL СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_BO_QUERY СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_FIELD_PROPERTY СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_FILTER СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_JOB СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ELSYS_PRINT_FORM СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ NN_XML_SETTINGS СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ XLRPT_TEMPLATE СЃРѕС…СЂР°РЅРµРЅС‹!!!
+       Р¤Р°Р№Р»С‹ dat СЃРѕС…СЂР°РЅРµРЅС‹!!!"
+    13  Р¤Р°Р№Р»С‹ dml insert СЃРѕС…СЂР°РЅРµРЅС‹!!!
 
-    Примеры использования:
+    РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ:
     -- QUERYS
     SELECT DEV_SNAPSHOT_DB_OBJECTS.LOADTOFILES_ALL_SQLQUERY(P_DIRECTORY_NAME => 'DIRPATH_FILE_DATA_TABLES') FROM DUAL;
 
@@ -199,10 +199,10 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
     SELECT DEV_SNAPSHOT_DB_OBJECTS.LOADTOFILES_ALL_SEQUENCE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                                             P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_SEQUENCES', 
                                                             P_OWNER_NAME            => 'DISTRDEV') FROM DUAL;
-    Для подключения сетевого диска.
-    Доступ к сетевому диску к базе разработки(DISTRDEV): \\MAINSRV\DevFileTmp
+    Р”Р»СЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ СЃРµС‚РµРІРѕРіРѕ РґРёСЃРєР°.
+    Р”РѕСЃС‚СѓРї Рє СЃРµС‚РµРІРѕРјСѓ РґРёСЃРєСѓ Рє Р±Р°Р·Рµ СЂР°Р·СЂР°Р±РѕС‚РєРё(DISTRDEV): \\MAINSRV\DevFileTmp
 
-    Структура папок и файлов для сохранения объектов:
+    РЎС‚СЂСѓРєС‚СѓСЂР° РїР°РїРѕРє Рё С„Р°Р№Р»РѕРІ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ:
     Root\
       sql_views.sql
       sql_types.sql
@@ -254,7 +254,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
       mv_conv_coordinates.mvw
       ...
 
-    Созданы директории (ALL_DIRECTORIES) на базе разработки(DISTRDEV):
+    РЎРѕР·РґР°РЅС‹ РґРёСЂРµРєС‚РѕСЂРёРё (ALL_DIRECTORIES) РЅР° Р±Р°Р·Рµ СЂР°Р·СЂР°Р±РѕС‚РєРё(DISTRDEV):
         DIRECTORY_NAME          DIRECTORY_PATH
     1 DIRPATH_FILE_DATA_TABLES  D:\DevFileTmp\data_tables
     2 DIRPATH_FILE_VIEWS        D:\DevFileTmp\views
@@ -272,11 +272,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   */
         
   /*
-    Сохранение BLOB типа в файл
-    Параметры:
-     P_FILENAME - Имя файла 
-     P_DIRECTORY_NAME - Директория
-     P_BLOB - Данные для сохранения 
+    РЎРѕС…СЂР°РЅРµРЅРёРµ BLOB С‚РёРїР° РІ С„Р°Р№Р»
+    РџР°СЂР°РјРµС‚СЂС‹:
+     P_FILENAME - РРјСЏ С„Р°Р№Р»Р° 
+     P_DIRECTORY_NAME - Р”РёСЂРµРєС‚РѕСЂРёСЏ
+     P_BLOB - Р”Р°РЅРЅС‹Рµ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ 
   */
   PROCEDURE SAVE_BLOBTOFILE(P_FILENAME IN VARCHAR2, P_DIRECTORY_NAME IN VARCHAR2, P_BLOB IN BLOB) IS
   V_LOB_LOC      BLOB;
@@ -322,11 +322,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END SAVE_BLOBTOFILE;
 
   /*
-    Сохранение CLOB типа в файл
-    Параметры:
-     P_FILENAME - Имя файла 
-     P_DIRECTORY_NAME - Директория
-     P_CLOB - Данные для сохранения 
+    РЎРѕС…СЂР°РЅРµРЅРёРµ CLOB С‚РёРїР° РІ С„Р°Р№Р»
+    РџР°СЂР°РјРµС‚СЂС‹:
+     P_FILENAME - РРјСЏ С„Р°Р№Р»Р° 
+     P_DIRECTORY_NAME - Р”РёСЂРµРєС‚РѕСЂРёСЏ
+     P_CLOB - Р”Р°РЅРЅС‹Рµ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ 
   */ 
   PROCEDURE SAVE_CLOBTOFILE(P_FILENAME IN VARCHAR2, P_DIRECTORY_NAME IN VARCHAR2, P_CLOB IN CLOB) IS
   BEGIN
@@ -336,12 +336,12 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END SAVE_CLOBTOFILE;
 
   /* 
-    Сохранение скрипта DML виде PLS/SQL 
-    Взято: https://github.com/teopost/oracle-scripts/blob/master/fn_gen_inserts.sql
-    Параметры:
-     P_SQL - Запрос, Пример: SELECT * FROM ELSYS_PRINT_FORM WHERE ID = 3880004
-     P_NEW_TABLE_NAME - Новое название таблицы
-     P_NEW_OWNER_NAME - Новое название владелеца 
+    РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРєСЂРёРїС‚Р° DML РІРёРґРµ PLS/SQL 
+    Р’Р·СЏС‚Рѕ: https://github.com/teopost/oracle-scripts/blob/master/fn_gen_inserts.sql
+    РџР°СЂР°РјРµС‚СЂС‹:
+     P_SQL - Р—Р°РїСЂРѕСЃ, РџСЂРёРјРµСЂ: SELECT * FROM ELSYS_PRINT_FORM WHERE ID = 3880004
+     P_NEW_TABLE_NAME - РќРѕРІРѕРµ РЅР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹
+     P_NEW_OWNER_NAME - РќРѕРІРѕРµ РЅР°Р·РІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р° 
   */
   FUNCTION GET_GEN_INSERT(P_SQL CLOB, P_NEW_TABLE_NAME VARCHAR2, P_NEW_OWNER_NAME VARCHAR2 DEFAULT NULL) RETURN CLOB IS
     L_CUR                        NUMBER;
@@ -616,63 +616,64 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_GEN_INSERT;
   
   /* 
-     Сохранение всех объектов базы данных 
-     Без параметров.
-     Результат - вывод результата работы функций 
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ Р±Р°Р·С‹ РґР°РЅРЅС‹С… 
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°     
+    Р РµР·СѓР»СЊС‚Р°С‚ - РІС‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р° СЂР°Р±РѕС‚С‹ С„СѓРЅРєС†РёР№ 
   */
-  FUNCTION CREATE_ALL_OBJECTS RETURN T_STRLIST
+  FUNCTION CREATE_ALL_OBJECTS(P_OWNER_NAME IN VARCHAR2) RETURN T_STRLIST
   PIPELINED IS
     V_TEXT VARCHAR2(4000);
   BEGIN
     -- TABLES
     V_TEXT := LOADTOFILES_ALL_TABLE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                     P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_TABLES',
-                                    P_OWNER_NAME            => 'DISTRDEV');
+                                    P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- CONSTRAINTS
     V_TEXT := LOADTOFILES_ALL_CONSTRAIN(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                         P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_CONSTRAINTS',
-                                        P_OWNER_NAME            => 'DISTRDEV');
+                                        P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- INDEXES
     V_TEXT := LOADTOFILES_ALL_INDEX(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                     P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_INDEXES',
-                                    P_OWNER_NAME            => 'DISTRDEV');
+                                    P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- VIEWS
     V_TEXT := LOADTOFILES_ALL_VIEW(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                    P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_VIEWS',
-                                   P_OWNER_NAME            => 'DISTRDEV');
+                                   P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- TRIGGERS
     V_TEXT := LOADTOFILES_ALL_TRIGGER(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                       P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_TRIGGERS',
-                                      P_OWNER_NAME            => 'DISTRDEV');
+                                      P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- TYPES
     V_TEXT := LOADTOFILES_ALL_TYPE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                    P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_TYPES',
-                                   P_OWNER_NAME            => 'DISTRDEV');
+                                   P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- FUNCTIONS
     V_TEXT := LOADTOFILES_ALL_FUNCTION(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                        P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_FUNCTIONS',
-                                       P_OWNER_NAME            => 'DISTRDEV');
+                                       P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- PROCEDURES
     V_TEXT := LOADTOFILES_ALL_PROCEDURE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                         P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_PROCEDURES',
-                                        P_OWNER_NAME            => 'DISTRDEV');
+                                        P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- PACKAGES
     V_TEXT := LOADTOFILES_ALL_PACKAGE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                       P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_PACKAGES',
-                                      P_OWNER_NAME            => 'DISTRDEV');
+                                      P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
     -- SEQUENCES
     V_TEXT := LOADTOFILES_ALL_SEQUENCE(P_DIRECTORY_NAME_ROOT   => 'DIRPATH_DEVFILETMP',
                                        P_DIRECTORY_NAME_SECOND => 'DIRPATH_FILE_SEQUENCES',
-                                       P_OWNER_NAME            => 'DISTRDEV');
+                                       P_OWNER_NAME            => UPPER(P_OWNER_NAME));
     PIPE ROW(R_STRLIST(V_TEXT));
    
     -- QUERYS
@@ -698,12 +699,12 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END CREATE_ALL_OBJECTS;
 
   /*
-    Сохранение DML файлов для вставки данных в таблицу
-    Функция использует таблицу ELSYS_TABLES для создания скриптов.
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ DML С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ
+    Р¤СѓРЅРєС†РёСЏ РёСЃРїРѕР»СЊР·СѓРµС‚ С‚Р°Р±Р»РёС†Сѓ ELSYS_TABLES РґР»СЏ СЃРѕР·РґР°РЅРёСЏ СЃРєСЂРёРїС‚РѕРІ.
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_INSERT_TABLE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -722,7 +723,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT UPPER(T.TABLE_NAME) AS TABLE_NAME
                           FROM ELSYS_TABLES T
@@ -749,19 +750,19 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN('Файлы dml insert сохранены!!!');
+        RETURN('Р¤Р°Р№Р»С‹ dml insert СЃРѕС…СЂР°РЅРµРЅС‹!!!');
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_INSERT_TABLE;
 
   /*
-    Сохранение CTL файлов для вставки данных в таблицу
-    Изпользуется SQL*Loader
-    Функция использует таблицу ELSYS_TABLES для создания скриптов.
-    Параметры: 
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ CTL С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ
+    РР·РїРѕР»СЊР·СѓРµС‚СЃСЏ SQL*Loader
+    Р¤СѓРЅРєС†РёСЏ РёСЃРїРѕР»СЊР·СѓРµС‚ С‚Р°Р±Р»РёС†Сѓ ELSYS_TABLES РґР»СЏ СЃРѕР·РґР°РЅРёСЏ СЃРєСЂРёРїС‚РѕРІ.
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_CTL_FILE(P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -779,7 +780,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT UPPER(T.TABLE_NAME) AS TABLE_NAME
                           FROM ELSYS_TABLES T
@@ -795,18 +796,18 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
              SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_SECOND, P_CLOB => L_CLOB);
           END IF;  
         END LOOP;
-        RETURN('Файлы ctl сохранены!!!');
+        RETURN('Р¤Р°Р№Р»С‹ ctl СЃРѕС…СЂР°РЅРµРЅС‹!!!');
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_CTL_FILE;
 
   /*
-    Сохранение DAT файлов для вставки данных в таблицу
-    Изпользуется SQL*Loader
-    Функция использует таблицу ELSYS_TABLES для создания скриптов.
-    Параметры: 
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
+    РЎРѕС…СЂР°РЅРµРЅРёРµ DAT С„Р°Р№Р»РѕРІ РґР»СЏ РІСЃС‚Р°РІРєРё РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ
+    РР·РїРѕР»СЊР·СѓРµС‚СЃСЏ SQL*Loader
+    Р¤СѓРЅРєС†РёСЏ РёСЃРїРѕР»СЊР·СѓРµС‚ С‚Р°Р±Р»РёС†Сѓ ELSYS_TABLES РґР»СЏ СЃРѕР·РґР°РЅРёСЏ СЃРєСЂРёРїС‚РѕРІ.
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
   */
   FUNCTION LOADTOFILES_ALL_DAT_FILE(P_DIRECTORY_NAME_SECOND IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -825,7 +826,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT UPPER(T.TABLE_NAME) AS TABLE_NAME
                           FROM ELSYS_TABLES T
@@ -850,7 +851,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
             END IF;   
           END IF;  
         END LOOP;
-        RESULT := RESULT || 'Файлы dat сохранены!!!';
+        RESULT := RESULT || 'Р¤Р°Р№Р»С‹ dat СЃРѕС…СЂР°РЅРµРЅС‹!!!';
         RETURN(RESULT);
     END IF;
     EXCEPTION
@@ -858,15 +859,15 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END LOADTOFILES_ALL_DAT_FILE;
 
   /*
-    Сохранение всех последовательностей (SEQUENCE) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.seq
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_sequences.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ (SEQUENCE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.seq
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_sequences.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_SEQUENCE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -885,7 +886,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -911,23 +912,23 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы sequences сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ sequences СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_SEQUENCE;
 
   /*
-    Сохранение всех представлений (VIEW) в файл и диреторию
-               и материализованное представления (MATERIALIZED VIEW) в файл и дереторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.vw и *.mvw
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_views.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїСЂРµРґСЃС‚Р°РІР»РµРЅРёР№ (VIEW) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+               Рё РјР°С‚РµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ (MATERIALIZED VIEW) РІ С„Р°Р№Р» Рё РґРµСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.vw Рё *.mvw
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_views.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_VIEW(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -946,7 +947,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -991,22 +992,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы views сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ views СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_VIEW;
 
   /*
-    Сохранение всех триггеров (TRIGGER) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.trg
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_triggers.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚СЂРёРіРіРµСЂРѕРІ (TRIGGER) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.trg
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_triggers.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_TRIGGER(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1025,7 +1026,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -1051,22 +1052,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы triggers сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ triggers СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_TRIGGER;
 
   /*
-    Сохранение всех типов (TYPE) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.typ и *.tps
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_types.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚РёРїРѕРІ (TYPE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.typ Рё *.tps
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_types.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_TYPE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1085,7 +1086,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -1127,22 +1128,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы types сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ types СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_TYPE;
 
   /*
-    Сохранение всех функций (FUNCTION) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.fnc
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_functions.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С„СѓРЅРєС†РёР№ (FUNCTION) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.fnc
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_functions.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_FUNCTION(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1161,7 +1162,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -1188,22 +1189,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => 'DIRPATH_DEVFILETMP', P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы functions сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ functions СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_FUNCTION;
 
   /*
-    Сохранение всех процедур (PROCEDURE) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.fnc
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_procedures.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїСЂРѕС†РµРґСѓСЂ (PROCEDURE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.fnc
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_procedures.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_PROCEDURE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1222,7 +1223,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -1249,22 +1250,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы procedures сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ procedures СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_PROCEDURE;
 
   /*
-    Сохранение всех пакетов (PACKAGE) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.spc *.bdy
-    Используется таблица ALL_OBJECTS
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_packages.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РїР°РєРµС‚РѕРІ (PACKAGE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.spc *.bdy
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_OBJECTS
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_packages.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_PACKAGE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1283,7 +1284,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT O.OBJECT_NAME,
                                 O.OWNER
@@ -1321,22 +1322,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы packages сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ packages СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_PACKAGE;
   
   /*
-    Сохранение всех индексов (INDEX) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.idx
-    Используется таблица ALL_TABLES
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_indexes.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РёРЅРґРµРєСЃРѕРІ (INDEX) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.idx
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_TABLES
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_indexes.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_INDEX(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1355,7 +1356,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         DBMS_METADATA.SET_TRANSFORM_PARAM(DBMS_METADATA.SESSION_TRANSFORM, 'STORAGE', FALSE); 
         DBMS_METADATA.SET_TRANSFORM_PARAM(DBMS_METADATA.session_transform, 'SQLTERMINATOR', FALSE);
@@ -1413,22 +1414,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы indexes сохранены!!!';    
+        RETURN 'Р¤Р°Р№Р»С‹ indexes СЃРѕС…СЂР°РЅРµРЅС‹!!!';    
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_INDEX;
   
   /*
-    Сохранение всех ограничений (CONSTRAIN) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.cnstr
-    Используется таблица ALL_TABLES
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_constraints.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… РѕРіСЂР°РЅРёС‡РµРЅРёР№ (CONSTRAIN) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.cnstr
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_TABLES
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_constraints.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_CONSTRAIN(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1447,13 +1448,13 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT T.OWNER,
                                  T.TABLE_NAME,
                                  T.IOT_NAME
                             FROM ALL_TABLES T
-                           WHERE T.OWNER = 'DISTRDEV'
+                           WHERE UPPER(T.OWNER) = UPPER(P_OWNER_NAME)
                              AND T.IOT_TYPE IS NULL 
                              AND ((T.TABLE_NAME LIKE 'DEV_%')
                                   OR (T.TABLE_NAME LIKE 'DSYS_%') 
@@ -1501,22 +1502,22 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы constraints сохранены!!!';        
+        RETURN 'Р¤Р°Р№Р»С‹ constraints СЃРѕС…СЂР°РЅРµРЅС‹!!!';        
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_CONSTRAIN;
   
   /*
-    Сохранение всех таблиц (TABLE) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - это название сохраняемого объекта 
-    Файлы: *.tab
-    Используется таблица ALL_TABLES
-    Все сохраненные обекты записывабтся, ввиде названия и пути к файлу объекта, в файл sql_tables.sql
-    Параметры: 
-      P_DIRECTORY_NAME_ROOT - Директория верхнего уровня
-      P_DIRECTORY_NAME_SECOND - Директория второго уровня (папка хранящая объекты, название по типу объекта)
-      P_OWNER_NAME - Наименование владелеца
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… С‚Р°Р±Р»РёС† (TABLE) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - СЌС‚Рѕ РЅР°Р·РІР°РЅРёРµ СЃРѕС…СЂР°РЅСЏРµРјРѕРіРѕ РѕР±СЉРµРєС‚Р° 
+    Р¤Р°Р№Р»С‹: *.tab
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_TABLES
+    Р’СЃРµ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ РѕР±РµРєС‚С‹ Р·Р°РїРёСЃС‹РІР°Р±С‚СЃСЏ, РІРІРёРґРµ РЅР°Р·РІР°РЅРёСЏ Рё РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕР±СЉРµРєС‚Р°, РІ С„Р°Р№Р» sql_tables.sql
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME_ROOT - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹, РЅР°Р·РІР°РЅРёРµ РїРѕ С‚РёРїСѓ РѕР±СЉРµРєС‚Р°)
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION LOADTOFILES_ALL_TABLE(P_DIRECTORY_NAME_ROOT IN VARCHAR2, P_DIRECTORY_NAME_SECOND IN VARCHAR2, P_OWNER_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1535,7 +1536,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT T.OWNER,
                                  T.TABLE_NAME,
@@ -1589,19 +1590,19 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
                       || L_ALL_CLOB || 
                       'SPOOL OFF;';
         SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME_ROOT, P_CLOB => L_ALL_CLOB);
-        RETURN 'Файлы tables сохранены!!!';       
+        RETURN 'Р¤Р°Р№Р»С‹ tables СЃРѕС…СЂР°РЅРµРЅС‹!!!';       
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_TABLE;
   
   /*
-    Сохранение всех запросов (SQLQUERY) в файл и диреторию
-    Функция сохраняет объект в файл, название файла - ID запроса || '_q'
-    Файлы: *.query
-    Используется таблица ELSYS_BO_QUERY
-    Параметры: 
-      P_DIRECTORY_NAME - Директория (папка хранящая объекты)
+    РЎРѕС…СЂР°РЅРµРЅРёРµ РІСЃРµС… Р·Р°РїСЂРѕСЃРѕРІ (SQLQUERY) РІ С„Р°Р№Р» Рё РґРёСЂРµС‚РѕСЂРёСЋ
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° - ID Р·Р°РїСЂРѕСЃР° || '_q'
+    Р¤Р°Р№Р»С‹: *.query
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ELSYS_BO_QUERY
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_DIRECTORY_NAME - Р”РёСЂРµРєС‚РѕСЂРёСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹)
   */
   FUNCTION LOADTOFILES_ALL_SQLQUERY(P_DIRECTORY_NAME IN VARCHAR2) RETURN VARCHAR2 IS
     L_CLOB CLOB;
@@ -1620,7 +1621,7 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
         L_DIR := '';
     END;
     IF (L_DIR IS NULL) THEN
-      RETURN 'ОШИБКА: Не найден путь в ALL_DIRECTORIES';
+      RETURN 'РћРЁРР‘РљРђ: РќРµ РЅР°Р№РґРµРЅ РїСѓС‚СЊ РІ ALL_DIRECTORIES';
     ELSE
         FOR CUR_ROWS IN (SELECT A.ID,
                                A.SQLTEXT,
@@ -1635,21 +1636,21 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
              SAVE_CLOBTOFILE(P_FILENAME => L_PATH, P_DIRECTORY_NAME => P_DIRECTORY_NAME, P_CLOB => L_CLOB);
           END IF;   
         END LOOP;      
-        RETURN 'Файлы querys сохранены!!!';
+        RETURN 'Р¤Р°Р№Р»С‹ querys СЃРѕС…СЂР°РЅРµРЅС‹!!!';
     END IF;
     EXCEPTION
       WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_ALL_SQLQUERY;
 
   /*
-    Сохранение CLOB и BLOB типов в файл 
-    Функция сохраняет CLOB и BLOB в файл "Имя таблицы" || '_' || ID || '.dat'
-    Изпользуется SQL*Loader
-    Файлы: *.dat
-    Параметры: 
-      P_QUERY - Запрос, пример: "SELECT * FROM TABLE_NAME T"
-      P_TABLE_NAME - Название таблицы
-      P_DIRECTORY_NAME_SECOND - Директория (папка хранящая объекты)
+    РЎРѕС…СЂР°РЅРµРЅРёРµ CLOB Рё BLOB С‚РёРїРѕРІ РІ С„Р°Р№Р» 
+    Р¤СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅСЏРµС‚ CLOB Рё BLOB РІ С„Р°Р№Р» "РРјСЏ С‚Р°Р±Р»РёС†С‹" || '_' || ID || '.dat'
+    РР·РїРѕР»СЊР·СѓРµС‚СЃСЏ SQL*Loader
+    Р¤Р°Р№Р»С‹: *.dat
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_QUERY - Р—Р°РїСЂРѕСЃ, РїСЂРёРјРµСЂ: "SELECT * FROM TABLE_NAME T"
+      P_TABLE_NAME - РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹
+      P_DIRECTORY_NAME_SECOND - Р”РёСЂРµРєС‚РѕСЂРёСЏ (РїР°РїРєР° С…СЂР°РЅСЏС‰Р°СЏ РѕР±СЉРµРєС‚С‹)
   */
   FUNCTION LOADTOFILES_CLOB_BLOB_OFQUERY(P_QUERY                 IN VARCHAR2,
                                          P_TABLE_NAME            IN VARCHAR2,
@@ -1738,15 +1739,15 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
     END IF;  
     DBMS_SQL.CLOSE_CURSOR(V_THECURSOR);
 
-    RETURN 'Файлы *.dat таблицы ' || UPPER(P_TABLE_NAME) || ' сохранены!!!';  
+    RETURN 'Р¤Р°Р№Р»С‹ *.dat С‚Р°Р±Р»РёС†С‹ ' || UPPER(P_TABLE_NAME) || ' СЃРѕС…СЂР°РЅРµРЅС‹!!!';  
   EXCEPTION WHEN OTHERS THEN RETURN SQLERRM;
   END LOADTOFILES_CLOB_BLOB_OFQUERY;
   
   /*
-    Получить текст запроса из базы данных
-    Используется таблица ELSYS_BO_QUERY
-    Параметры: 
-      P_BO_QUERY_ID - ID запроса
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ Р·Р°РїСЂРѕСЃР° РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ELSYS_BO_QUERY
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_BO_QUERY_ID - ID Р·Р°РїСЂРѕСЃР°
   */
   FUNCTION GET_DML_SQLQUERY(P_BO_QUERY_ID NUMBER) RETURN CLOB AS
   RESULT CLOB;
@@ -1775,11 +1776,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DML_SQLQUERY;
   
   /*
-    Получить текст DDL последовательности
-    Используется таблица ALL_SEQUENCES
-    Параметры: 
-      P_SEQUENCE_NAME - Имя последовательности
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° ALL_SEQUENCES
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_SEQUENCE_NAME - РРјСЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_SEQUENCE(P_SEQUENCE_NAME VARCHAR2, 
                             P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1807,11 +1808,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_SEQUENCE;
 
   /*
-    Получить текст DDL материализованного представления
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_MVIEW_NAME - Имя материализованного представления
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РјР°С‚РµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_MVIEW_NAME - РРјСЏ РјР°С‚РµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_MVIEW(P_MVIEW_NAME VARCHAR2, 
                          P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1826,11 +1827,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_MVIEW;
 
   /*
-    Получить текст DDL представления
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_VIEW_NAME - Имя представления
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_VIEW_NAME - РРјСЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_VIEW(P_VIEW_NAME VARCHAR2, 
                         P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1845,11 +1846,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_VIEW;
 
   /*
-    Получить текст DDL тириггера
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TRIGGER_NAME - Имя тириггера
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РёСЂРёРіРіРµСЂР°
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TRIGGER_NAME - РРјСЏ С‚РёСЂРёРіРіРµСЂР°
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_TRIGGER(P_TRIGGER_NAME VARCHAR2, 
                            P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1864,11 +1865,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_TRIGGER;
 
   /*
-    Получить текст DDL тип спецификации
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TYPE_NAME - Имя типа
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РёРї СЃРїРµС†РёС„РёРєР°С†РёРё
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TYPE_NAME - РРјСЏ С‚РёРїР°
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */  
   FUNCTION GET_DDL_TYPE_SPEC(P_TYPE_NAME VARCHAR2, 
                              P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1883,11 +1884,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_TYPE_SPEC;
 
   /*
-    Получить текст DDL тело типа
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TYPE_NAME - Имя типа
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РµР»Рѕ С‚РёРїР°
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TYPE_NAME - РРјСЏ С‚РёРїР°
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */ 
   FUNCTION GET_DDL_TYPE_BODY(P_TYPE_NAME VARCHAR2, 
                              P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1902,11 +1903,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_TYPE_BODY;
 
   /*
-    Получить текст DDL функции
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_FUNCTION_NAME - Имя функции
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С„СѓРЅРєС†РёРё
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_FUNCTION_NAME - РРјСЏ С„СѓРЅРєС†РёРё
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */ 
   FUNCTION GET_DDL_FUNCTION(P_FUNCTION_NAME VARCHAR2, 
                             P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1921,11 +1922,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_FUNCTION;
 
   /*
-    Получить текст DDL процедуры
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_PROCEDURE_NAME - Имя процедуры
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РїСЂРѕС†РµРґСѓСЂС‹
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_PROCEDURE_NAME - РРјСЏ РїСЂРѕС†РµРґСѓСЂС‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */ 
   FUNCTION GET_DDL_PROCEDURE(P_PROCEDURE_NAME VARCHAR2, 
                              P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1940,11 +1941,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_PROCEDURE;
 
   /*
-    Получить текст DDL спецификация пакета
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_PACKAGE_NAME - Имя пакета
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL СЃРїРµС†РёС„РёРєР°С†РёСЏ РїР°РєРµС‚Р°
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_PACKAGE_NAME - РРјСЏ РїР°РєРµС‚Р°
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */ 
   FUNCTION GET_DDL_PACKAGE_SPEC(P_PACKAGE_NAME VARCHAR2, 
                                 P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1959,11 +1960,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_PACKAGE_SPEC;
 
   /*
-    Получить текст DDL тело пакета
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_PACKAGE_NAME - Имя пакета
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚РµР»Рѕ РїР°РєРµС‚Р°
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_PACKAGE_NAME - РРјСЏ РїР°РєРµС‚Р°
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */ 
   FUNCTION GET_DDL_PACKAGE_BODY(P_PACKAGE_NAME VARCHAR2, 
                                 P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -1978,11 +1979,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_PACKAGE_BODY;
 
   /*
-    Получить текст DDL индекса
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РёРЅРґРµРєСЃР°
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_INDEX(P_TABLE_NAME VARCHAR2,
                          P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2010,11 +2011,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_INDEX; 
 
   /*
-    Получить текст DDL ограничения
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL РѕРіСЂР°РЅРёС‡РµРЅРёСЏ
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_CONSTRAINT(P_TABLE_NAME VARCHAR2, 
                               P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2044,11 +2045,11 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_CONSTRAINT; 
 
   /*
-    Получить текст DDL таблицы
-    Используется пакет DBMS_METADATA
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DDL С‚Р°Р±Р»РёС†С‹
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїР°РєРµС‚ DBMS_METADATA
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DDL_TABLE(P_TABLE_NAME VARCHAR2, 
                          P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2094,10 +2095,10 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DDL_TABLE; 
 
   /*
-    Получить текст DML INSERT таблицы
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DML INSERT С‚Р°Р±Р»РёС†С‹
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DML_TABLE(P_TABLE_NAME VARCHAR2, 
                          P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2131,10 +2132,10 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DML_TABLE; 
 
   /*
-    Получить текст SELECT INSERT таблицы
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ SELECT INSERT С‚Р°Р±Р»РёС†С‹
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_DML_INSSCRIPT(P_TABLE_NAME VARCHAR2, 
                              P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2188,12 +2189,12 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_DML_INSSCRIPT;
 
   /*
-    Получить текст CTL файл таблицы
-    Для SQL*Loader
-    Используется таблицы ALL_TABLES и ALL_TAB_COLUMNS
-    Параметры: 
-      P_TABLE_NAME - Имя таблицы
-      P_OWNER_NAME - Наименование владелеца
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ CTL С„Р°Р№Р» С‚Р°Р±Р»РёС†С‹
+    Р”Р»СЏ SQL*Loader
+    РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚Р°Р±Р»РёС†С‹ ALL_TABLES Рё ALL_TAB_COLUMNS
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
   */
   FUNCTION GET_CTL_FILE_SCRIPT(P_TABLE_NAME VARCHAR2, 
                                P_OWNER_NAME VARCHAR2) RETURN CLOB AS
@@ -2266,14 +2267,14 @@ CREATE OR REPLACE PACKAGE BODY DEV_SNAPSHOT_DB_OBJECTS IS
   END GET_CTL_FILE_SCRIPT;
 
   /*
-    Получить текст DAT файл таблицы
-    Для SQL*Loader
-    Параметры: 
-      P_QUERY - Запрос     
-      P_TABLE_NAME - Имя таблицы
-      P_SEPARATOR - Разделитель
-      P_OWNER_NAME - Наименование владелеца
-      P_LINE_TERMINATOR - Разделитель строки
+    РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚ DAT С„Р°Р№Р» С‚Р°Р±Р»РёС†С‹
+    Р”Р»СЏ SQL*Loader
+    РџР°СЂР°РјРµС‚СЂС‹: 
+      P_QUERY - Р—Р°РїСЂРѕСЃ     
+      P_TABLE_NAME - РРјСЏ С‚Р°Р±Р»РёС†С‹
+      P_SEPARATOR - Р Р°Р·РґРµР»РёС‚РµР»СЊ
+      P_OWNER_NAME - РќР°РёРјРµРЅРѕРІР°РЅРёРµ РІР»Р°РґРµР»РµС†Р°
+      P_LINE_TERMINATOR - Р Р°Р·РґРµР»РёС‚РµР»СЊ СЃС‚СЂРѕРєРё
   */
   FUNCTION GET_DAT_FILE_QUERY(P_QUERY           IN VARCHAR2,
                               P_TABLE_NAME      IN VARCHAR2,
